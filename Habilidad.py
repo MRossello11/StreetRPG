@@ -2,8 +2,7 @@ import random
 
 
 class Habilidad:
-    def __init__(self, codigoHabilidad, nombre, dagno, probFallo, probCritico, probBackFire, efectos):
-        self.codigoHabilidad = codigoHabilidad  # codigo identificador de la habilidad
+    def __init__(self, nombre, dagno, probFallo, probCritico, probBackFire, efectos):
         self.nombre = nombre  # nombre de la habilidad
         self.dagno = dagno  # cantidad de dagno base
         self.probFallo = probFallo  # probabilidad de que la habilidad falle

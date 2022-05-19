@@ -1,3 +1,5 @@
+import copy
+
 from TipoEfecto import TipoEfecto
 from Efecto import Efecto
 from Habilidad import Habilidad
@@ -14,21 +16,42 @@ def inicio():
 
 
 def efectos():
-    listaEfectos.append(Efecto("Daño", TipoEfecto.QUITAR_VIDA, 1.15, 1))     # 0
-    listaEfectos.append(Efecto("Cura", TipoEfecto.AUMENTO_VIDA, 1, 1))       # 1
-    listaEfectos.append(Efecto("Quemazón", TipoEfecto.QUITAR_VIDA, 0.5, 3))  # 2
-    listaEfectos.append(Efecto("Aturdimiento", TipoEfecto.ATURDIR, 0.6, 1))  # 3
+    listaEfectos.append(Efecto("Daño", TipoEfecto.QUITAR_VIDA, 1))  # 0
+    listaEfectos.append(Efecto("Cura", TipoEfecto.AUMENTO_VIDA, 1))  # 1
+    listaEfectos.append(Efecto("Quemazón", TipoEfecto.QUITAR_VIDA, 3))  # 2
+    listaEfectos.append(Efecto("Aturdimiento", TipoEfecto.ATURDIR, 1))  # 3
+    listaEfectos.append(Efecto("Defensa", TipoEfecto.DEFENSA, 2))  # 4
+    listaEfectos.append(Efecto("Intercambio vida", TipoEfecto.INTERCAMBIO_VIDA, 1))  # 5
 
 
 def habilidades():
-    listaHabilidades.append(Habilidad(0, "Ataque Base", 75, 10, 30, 5, [listaEfectos[0]]))
-    listaHabilidades.append(Habilidad(10, "Basculo napalm", 90, 20, 40, 5, [listaEfectos[0], listaEfectos[2]]))
-    listaHabilidades.append(Habilidad(20, "Encanto", 25, 10, 60, 10, [listaEfectos[0], listaEfectos[3]]))
-    listaHabilidades.append(Habilidad(11, "Daga", 65, 20, 30, 10, [listaEfectos[0]]))
-    listaHabilidades.append(Habilidad(21, "Robo", 20, 10, 20, 0, [listaEfectos[0]]))
+    listaHabilidades.append(Habilidad("Ataque Base", 75, 10, 30, 5, [copy.deepcopy(listaEfectos[0])]))  # 0
+
+    listaHabilidades.append(Habilidad("Basculo napalm", 90, 20, 40, 5, [copy.deepcopy(listaEfectos[0]),
+                                                                        copy.deepcopy(listaEfectos[2])]))  # 1
+
+    listaHabilidades.append(Habilidad("Encanto", 25, 10, 60, 10, [copy.deepcopy(listaEfectos[0]),
+                                                                  copy.deepcopy(listaEfectos[3])]))  # 2
+
+    listaHabilidades.append(Habilidad("Daga", 65, 20, 30, 10, [copy.deepcopy(listaEfectos[0])]))  # 3
+
+    listaHabilidades.append(Habilidad("Robo", 30, 10, 20, 0, [copy.deepcopy(listaEfectos[5])]))  # 4
+
+    listaHabilidades.append(Habilidad("Patada", 115, 50, 30, 45, [copy.deepcopy(listaEfectos[0]),
+                                                                  copy.deepcopy(listaEfectos[3])]))  # 5
+
+    listaHabilidades.append(Habilidad("Escudo", 35, 20, 0, 0, [copy.deepcopy(listaEfectos[4])]))  # 6
+
+    listaHabilidades.append(Habilidad("Empujon", 80, 35, 15, 10, [copy.deepcopy(listaEfectos[0])]))  # 7
+
+    listaHabilidades.append(Habilidad("Cura", 50, 20, 5, 1, [copy.deepcopy(listaEfectos[1])]))  # 8
 
 
 def personajes():
-    listaPersonajes = [Personaje(1, "Mago", 600, [listaHabilidades[0], listaHabilidades[1], listaHabilidades[2]]),
-                       Personaje(2, "Ladron", 700, [listaHabilidades[0], listaHabilidades[3], listaHabilidades[4]])]
+    listaPersonajes = [
+        Personaje("Mago", 400, [listaHabilidades[0], listaHabilidades[1], listaHabilidades[2], listaHabilidades[8]]),
+        Personaje("Ladron", 700, [listaHabilidades[0], listaHabilidades[3], listaHabilidades[4]]),
+        Personaje("Bruto", 900, [listaHabilidades[0], listaHabilidades[5], listaHabilidades[6]])
+        # Personaje("Escudero", 1200, [listaHabilidades[0], listaHabilidades[6]])
+    ]
     return listaPersonajes

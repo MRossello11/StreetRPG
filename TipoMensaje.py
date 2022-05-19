@@ -7,3 +7,6 @@ class TipoMensaje(enum.Enum):
     FALLO = 2
     BACKFIRE = 3
     EFECTO = 4
+    DEFENSA = 5
+    ATURDIMENTO = 6
+    CURACION = 7
