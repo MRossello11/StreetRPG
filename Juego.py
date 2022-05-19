@@ -64,31 +64,25 @@ class Juego:
 
         print(f"                                     {self.jugadores[turno2].nombre}")
         print("                                     ============================")
-        print(f"                                     = {self.jugadores[turno2].personaje.nombre}  HP: "
+        print(f"                                     {self.jugadores[turno2].personaje.nombre}  HP: "
               f"{self.jugadores[turno2].personaje.vidaRestante} / "
-              f"{self.jugadores[turno2].personaje.vida}     =")
+              f"{self.jugadores[turno2].personaje.vida}     ")
         contador = 1
         for i in self.jugadores[turno2].personaje.habilidades:
             print("                                    ", contador, ". ", i)
             contador += 1
-        # print("                                     = Habilidades:             =")
-        # print("                                     = 1.Basculo Napalm         =")
-        # print("                                     = 2.Hechizo general        =")
-        # print("                                     ============================")
+        print("                                     ============================")
 
         print(self.jugadores[turno].nombre)
         print("============================")
         print(
-            f"= {self.jugadores[turno].personaje.nombre}  HP: "
-            f"{self.jugadores[turno].personaje.vidaRestante} / {self.jugadores[turno].personaje.vida}    =")
+            f"{self.jugadores[turno].personaje.nombre}  HP: "
+            f"{self.jugadores[turno].personaje.vidaRestante} / {self.jugadores[turno].personaje.vida}    ")
         contador = 1
         for i in self.jugadores[turno].personaje.habilidades:
             print(contador, ". ", i)
             contador += 1
-        # print("= Habilidades:             =")
-        # print("= 1.Basculo Napalm         =")
-        # print("= 2.Hechizo general        =")
-        # print("============================")
+        print("============================")
         print("                                     ")
 
     def partida(self):
@@ -131,8 +125,10 @@ class Juego:
                 # se evaluan las probabilidades de la habilidad escogida
                 probabilidades = None
                 probabilidades = habilidad.evaluarProbabilidades()
+
                 if len(probabilidades) == 0:
                     self.mensajeAtaque(TipoMensaje.FALLO, jugador, 0)
+
                 # si no falla
                 else:
                     efecto = copy.deepcopy(habilidad.efectos[0])
@@ -143,63 +139,21 @@ class Juego:
                         # si es critico y solo hay un efecto, este hace mas dagnoBase
                         if len(habilidad.efectos) == 1:
                             efecto.dagnoBase *= self.CRITICO  # se aplica el critico
-                            # si el efecto extra es de aumento de vida, va para el jugador
-                            if efecto.tipoEfecto == TipoEfecto.AUMENTO_VIDA \
-                                    or efecto.tipoEfecto == TipoEfecto.DEFENSA:
-                                self.jugadores[turnoJugador].personaje.efectos.append(copy.deepcopy(efecto))
-
-                            # intercambio de vida
-                            elif efecto.tipoEfecto == TipoEfecto.INTERCAMBIO_VIDA:
-                                self.jugadores[turnoJugador].personaje.cambiarVida(+efecto.dagnoBase)
-                                self.mensajeAtaque(TipoMensaje.CURACION, self.jugadores[turnoJugador], efecto.dagnoBase)
-                                self.jugadores[turnoContrario].personaje.cambiarVida(-efecto.dagnoBase)
-                                self.mensajeAtaque(TipoMensaje.NORMAL, self.jugadores[turnoContrario], efecto.dagnoBase)
-
-                            # tipo efecto normal
-                            else:
-                                self.jugadores[turnoContrario].personaje.efectos.append(copy.deepcopy(efecto))
-                                self.mensajeAtaque(TipoMensaje.CRITICO, self.jugadores[turnoContrario],
-                                                   efecto.dagnoBase)
-
+                            self.appendEfectos(efecto, turnoJugador, turnoContrario)
+                        # todo: revisar la aplicacion de los efectos extra
                         # si se tienen que aplicar efectos extra
                         else:
                             # se aplican tantos efectos extra como haya
                             for efecto in habilidad.efectos:
-                                # si el efecto extra es de aumento de vida, va para el jugador
-                                if efecto.tipoEfecto == TipoEfecto.AUMENTO_VIDA \
-                                        or efecto.tipoEfecto == TipoEfecto.DEFENSA:
-                                    self.jugadores[turnoJugador].personaje.efectos.append(copy.deepcopy(efecto))
-                                else:
-                                    self.jugadores[turnoContrario].personaje.efectos.append(copy.deepcopy(efecto))
+                                self.appendEfectos(efecto, turnoJugador, turnoContrario)
 
                     # si el ataque no es critico (ataque normal), solo se aplica el primer efecto
                     else:
-                        # si es de aumento de vida se aplica al jugador
-                        if efecto.tipoEfecto == TipoEfecto.AUMENTO_VIDA \
-                                or efecto.tipoEfecto == TipoEfecto.DEFENSA:
-                            self.jugadores[turnoJugador].personaje.efectos.append(copy.deepcopy(efecto))
-
-                        # intercambio de vida
-                        elif efecto.tipoEfecto == TipoEfecto.INTERCAMBIO_VIDA:
-                            self.jugadores[turnoJugador].personaje.cambiarVida(+efecto.dagnoBase)
-                            self.mensajeAtaque(TipoMensaje.CURACION, self.jugadores[turnoJugador], efecto.dagnoBase)
-                            self.jugadores[turnoContrario].personaje.cambiarVida(-efecto.dagnoBase)
-                            self.mensajeAtaque(TipoMensaje.NORMAL, self.jugadores[turnoContrario], efecto.dagnoBase)
-
-                        # si no, se aplica al enemigo
-                        else:
-                            self.jugadores[turnoContrario].personaje.efectos.append(copy.deepcopy(efecto))
+                        self.appendEfectos(efecto, turnoJugador, turnoContrario)
 
                     # en caso de backfire se hace lo contrario que el ataque normal
                     if probabilidades[1] is True:
-                        # si es de aumento de vida se aplica al jugador
-                        if efecto.tipoEfecto != TipoEfecto.AUMENTO_VIDA \
-                                or efecto.tipoEfecto != TipoEfecto.DEFENSA:
-                            self.jugadores[turnoJugador].personaje.efectos.append(copy.deepcopy(efecto))
-                            self.mensajeAtaque(TipoMensaje.BACKFIRE, jugador, efecto.dagnoBase)
-                        # si no, se aplica al enemigo
-                        else:
-                            self.jugadores[turnoContrario].personaje.efectos.append(copy.deepcopy(efecto))
+                        self.appendEfectos(efecto, turnoContrario, turnoJugador)
 
                 # agnadidos los efectos, se aplican
                 self.aplicarEfectos()
@@ -243,7 +197,7 @@ class Juego:
             print(jugador.nombre, " ha recibido", dagno, " de dagno!")
         # mensaje critico
         elif mensaje == TipoMensaje.CRITICO:
-            print(jugador.nombre, " ha recibido un critico de ", dagno, " puntos de daño!")
+            print(jugador.nombre, " ha hecho un critico!")
 
         # mensaje fallo
         elif mensaje == TipoMensaje.FALLO:
@@ -310,7 +264,7 @@ class Juego:
                     # se quitan los efectos que no tengan mas turnos
                     if efecto.numTurnosRestantes == 0:
                         jugador.personaje.efectos.remove(efecto)
-                        print(efecto, " eliminado")
+                        # print(efecto, " eliminado")
                         efecto.numTurnosRestantes = efecto.numTurnos
 
     def comprobarVida(self):
@@ -331,3 +285,21 @@ class Juego:
 
         else:
             return False
+
+    def appendEfectos(self, efecto, turnoJugador, turnoContrario):
+        # si el efecto extra es de aumento de vida, va para el jugador
+        if efecto.tipoEfecto == TipoEfecto.AUMENTO_VIDA \
+                or efecto.tipoEfecto == TipoEfecto.DEFENSA:
+            self.jugadores[turnoJugador].personaje.efectos.append(copy.deepcopy(efecto))
+
+        # intercambio de vida
+        elif efecto.tipoEfecto == TipoEfecto.INTERCAMBIO_VIDA:
+            self.jugadores[turnoJugador].personaje.cambiarVida(+efecto.dagnoBase)
+            # self.mensajeAtaque(TipoMensaje.CURACION, self.jugadores[turnoJugador], efecto.dagnoBase)
+            self.jugadores[turnoContrario].personaje.cambiarVida(-efecto.dagnoBase)
+            # self.mensajeAtaque(TipoMensaje.NORMAL, self.jugadores[turnoContrario], efecto.dagnoBase)
+
+        # tipo efecto normal
+        else:
+            self.jugadores[turnoContrario].personaje.efectos.append(copy.deepcopy(efecto))
+            self.mensajeAtaque(TipoMensaje.CRITICO, self.jugadores[turnoJugador])
