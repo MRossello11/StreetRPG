@@ -1,14 +1,4 @@
 class Personaje:
-    # def __init__(self, codigoPersonaje, nombre, vida, habilidades, debilidades, fortalezas):
-    #     self.codigoPersonaje = codigoPersonaje  # codigo que identifica al personaje
-    #     self.nombre = nombre  # nombre del personaje
-    #     self.vida = vida  # puntos de vida del personaje
-    #     self.vidaRestante = vida  # puntos de vida restantes
-    #     self.habilidades = habilidades  # array de habilidades
-    #     self.debilidades = debilidades  # array de personajes a los que es debil (le hacen mas dagno)
-    #     self.fortalezas = fortalezas  # array de personajes a los que es fuerte (hace mas dagno)
-
-    # constructor "normal"
     def __init__(self, *args):
         # constructor a partir de otro Personaje
         if isinstance(args[0], Personaje):

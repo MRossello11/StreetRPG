@@ -140,6 +140,7 @@ class Juego:
                         if len(habilidad.efectos) == 1:
                             efecto.dagnoBase *= self.CRITICO  # se aplica el critico
                             self.appendEfectos(efecto, turnoJugador, turnoContrario)
+                            self.mensajeAtaque(TipoMensaje.CRITICO, jugador)
                         # todo: revisar la aplicacion de los efectos extra
                         # si se tienen que aplicar efectos extra
                         else:
@@ -256,8 +257,6 @@ class Juego:
                         jugador.personaje.cambiarVida(aumento)
                         self.mensajeAtaque(TipoMensaje.CURACION, jugador, aumento)
 
-                    # elif efecto.tipoEfecto == TipoEfecto.DEFENSA:
-
                     efecto.numTurnosRestantes -= 1
 
                 for efecto in jugador.personaje.efectos:
@@ -302,4 +301,4 @@ class Juego:
         # tipo efecto normal
         else:
             self.jugadores[turnoContrario].personaje.efectos.append(copy.deepcopy(efecto))
-            self.mensajeAtaque(TipoMensaje.CRITICO, self.jugadores[turnoJugador])
+            # self.mensajeAtaque(TipoMensaje.CRITICO, self.jugadores[turnoJugador])
