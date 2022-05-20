@@ -14,6 +14,7 @@ class Habilidad:
     def __repr__(self):
         return self.nombre + " " + str(self.dagno)
 
+    # el dagno de los efectos depende de la habilidad a la que pertenezcan
     def modificarDagnoBaseEfectos(self):
         for efecto in self.efectos:
             efecto.dagnoBase = self.dagno
