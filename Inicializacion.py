@@ -47,8 +47,6 @@ def habilidades():
 
     listaHabilidades.append(Habilidad("Colmillos", 50, 35, 10, 10, [copy.deepcopy(listaEfectos[4])]))           # 8
 
-    # listaHabilidades.append(Habilidad())
-
 
 def personajes():
     listaPersonajes = [
@@ -56,6 +54,5 @@ def personajes():
         Personaje("Ladron", 700, [listaHabilidades[0], listaHabilidades[3], listaHabilidades[4]]),
         Personaje("Bruto", 900, [listaHabilidades[0], listaHabilidades[4], listaHabilidades[5], listaHabilidades[6]]),
         Personaje("Vampiro", 650, [listaHabilidades[3], listaHabilidades[8], listaHabilidades[2]])
-        # Personaje("Escudero", 1200, [listaHabilidades[0], listaHabilidades[6]])
     ]
     return listaPersonajes

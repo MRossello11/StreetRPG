@@ -133,6 +133,7 @@ class Juego:
                     habilidad = jugador.personaje.habilidades[random.randint(0, len(jugador.personaje.habilidades) - 1)]
 
                 print(jugador.nombre, " va a usar ", habilidad)
+
                 # se evaluan las probabilidades de la habilidad escogida
                 probabilidades = None
                 probabilidades = habilidad.evaluarProbabilidades()
@@ -247,7 +248,6 @@ class Juego:
                 # se aplica efecto a efecto de mas antiguo a mas nuevo
                 for efecto in jugador.personaje.efectos:
                     if efecto.numTurnosRestantes <= 0:
-                        jugador.personaje.efectos.remove(efecto)
                         continue
 
                     # efectos que quitan vida
