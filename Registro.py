@@ -1,2 +1,0 @@
-class Registro:
-    print("jeje")
