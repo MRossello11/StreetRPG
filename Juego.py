@@ -145,9 +145,14 @@ class Juego:
                 else:
                     efecto = copy.deepcopy(habilidad.efectos[0])
 
+                    # en caso de backfire se hace lo contrario que el ataque normal
+                    if probabilidades[1] is True:
+                        self.mensajeAtaque(TipoMensaje.BACKFIRE, jugador)
+                        self.appendEfectos(efecto, turnoContrario, turnoJugador)
+
                     # se agnaden los efectos de la habilidad usada para que luego se apliquen
                     # si el ataque es critico, se aplican los efectos extra que puedan haber
-                    if probabilidades[0] is True:
+                    elif probabilidades[0] is True:
                         self.mensajeAtaque(TipoMensaje.CRITICO, jugador)
                         # si es critico y solo hay un efecto, este hace mas dagnoBase
                         if len(habilidad.efectos) == 1:
@@ -164,10 +169,7 @@ class Juego:
                     else:
                         self.appendEfectos(efecto, turnoJugador, turnoContrario)
                         print("")
-                    # en caso de backfire se hace lo contrario que el ataque normal
-                    if probabilidades[1] is True:
-                        self.appendEfectos(efecto, turnoContrario, turnoJugador)
-                        self.mensajeAtaque(TipoMensaje.BACKFIRE, jugador)
+
                 # agnadidos los efectos, se aplican
                 self.aplicarEfectos()
 
@@ -210,7 +212,7 @@ class Juego:
 
         # mensaje normal
         if mensaje == TipoMensaje.NORMAL:
-            print(jugador.nombre, " ha recibido", dagno, " de dagno!")
+            print(jugador.nombre, " ha recibido", dagno, " de daño!")
         # mensaje critico
         elif mensaje == TipoMensaje.CRITICO:
             print(jugador.nombre, " ha hecho un critico!")
@@ -225,7 +227,7 @@ class Juego:
 
         # mensaje efecto (dagno hecho por un efecto duradero)
         elif mensaje == TipoMensaje.EFECTO:
-            print(jugador.nombre, " ha recibido ", dagno, " puntos de dagno por ", efecto,
+            print(jugador.nombre, " ha recibido ", dagno, " puntos de daño por ", efecto,
                   " (", turnos, " turnos restantes)")
 
         # mensaje defensa

@@ -27,25 +27,25 @@ def efectos():
 def habilidades():
     listaHabilidades.append(Habilidad("Ataque Base", 65, 10, 30, 5, [copy.deepcopy(listaEfectos[0])]))          # 0
 
-    listaHabilidades.append(Habilidad("Basculo napalm", 95, 20, 40, 5, [copy.deepcopy(listaEfectos[0]),
+    listaHabilidades.append(Habilidad("Basculo napalm", 95, 15, 55, 5, [copy.deepcopy(listaEfectos[0]),
                                                                         copy.deepcopy(listaEfectos[2])]))       # 1
 
     listaHabilidades.append(Habilidad("Encanto", 25, 10, 60, 10, [copy.deepcopy(listaEfectos[0]),
                                                                   copy.deepcopy(listaEfectos[3])]))             # 2
 
-    listaHabilidades.append(Habilidad("Daga", 75, 25, 30, 10, [copy.deepcopy(listaEfectos[0]),
+    listaHabilidades.append(Habilidad("Daga", 75, 20, 40, 10, [copy.deepcopy(listaEfectos[0]),
                                                                copy.deepcopy(listaEfectos[5])]))                # 3
 
     listaHabilidades.append(Habilidad("Robo", 30, 10, 20, 0, [copy.deepcopy(listaEfectos[4])]))                 # 4
 
-    listaHabilidades.append(Habilidad("Patada", 135, 55, 20, 45, [copy.deepcopy(listaEfectos[0]),
+    listaHabilidades.append(Habilidad("Patada", 135, 45, 25, 30, [copy.deepcopy(listaEfectos[0]),
                                                                   copy.deepcopy(listaEfectos[3])]))             # 5
 
-    listaHabilidades.append(Habilidad("Empujon", 115, 35, 15, 10, [copy.deepcopy(listaEfectos[0])]))            # 6
+    listaHabilidades.append(Habilidad("Empujon", 115, 30, 15, 15, [copy.deepcopy(listaEfectos[0])]))            # 6
 
     listaHabilidades.append(Habilidad("Cura", 40, 20, 5, 1, [copy.deepcopy(listaEfectos[1])]))                  # 7
 
-    listaHabilidades.append(Habilidad("Colmillos", 50, 35, 10, 10, [copy.deepcopy(listaEfectos[4])]))           # 8
+    listaHabilidades.append(Habilidad("Colmillos", 50, 30, 10, 10, [copy.deepcopy(listaEfectos[4])]))           # 8
 
 
 def personajes():
